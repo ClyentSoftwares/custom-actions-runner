@@ -11,13 +11,18 @@ RUN apt-get update && \
     git \
     jq \
     unzip \
-    software-properties-common
+    software-properties-common \
+    libssl-dev \
+    libudev-dev
 
 # Download and install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     ./aws/install && \
     rm -rf awscliv2.zip aws
+
+# Download Rustup
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Clean up APT cache and temporary files
 RUN apt-get clean && \
