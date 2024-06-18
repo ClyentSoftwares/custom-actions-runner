@@ -21,8 +21,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "aws
     ./aws/install && \
     rm -rf awscliv2.zip aws
 
-# Download Rustup
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Install Rustup and Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    source $HOME/.cargo/env
 
 # Clean up APT cache and temporary files
 RUN apt-get clean && \
