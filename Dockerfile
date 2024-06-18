@@ -21,15 +21,15 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "aws
     ./aws/install && \
     rm -rf awscliv2.zip aws
 
-# Install Rustup and Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-# Set PATH for Rust
-ENV PATH="/root/.cargo/bin:${PATH}"
-
 # Clean up APT cache and temporary files
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Switch back to runner user
 USER runner
+
+# Install Rustup and Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Set PATH for Rust
+ENV PATH="/root/.cargo/bin:${PATH}"
