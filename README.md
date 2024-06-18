@@ -22,8 +22,6 @@ spec:
       command: ["/home/runner/run.sh"]
 ```
 
-**Note:** Replace `[YOUR_CUSTOM_LABELS]` with any labels you want to assign to the runner.
-
 ### Built-in Tools and Packages
 
 This image is based on Ubuntu 22.04 and includes several useful CLI tools and packages to enhance your workflow capabilities. A complete list of included packages is not provided here, but some notable examples include:
