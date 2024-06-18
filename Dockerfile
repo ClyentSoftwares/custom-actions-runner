@@ -15,6 +15,7 @@ RUN apt-get update && \
     software-properties-common \
     libssl-dev \
     libudev-dev \
+	libclang-dev \
 	pkg-config
 
 # Download and install AWS CLI
