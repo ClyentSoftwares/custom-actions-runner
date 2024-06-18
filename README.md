@@ -15,11 +15,11 @@ ghcr.io/clyentsoftwares/custom-actions-runner:latest
 To use this image in your self-hosted ARC deployment, you can reference it in your `values.yaml` configuration file:
 
 ```yaml
-  spec:
-    containers:
-      - name: runner
-        image: ghcr.io/clyentsoftwares/custom-actions-runner:latest
-        command: ["/home/runner/run.sh"]
+spec:
+  containers:
+    - name: runner
+      image: ghcr.io/clyentsoftwares/custom-actions-runner:latest
+      command: ["/home/runner/run.sh"]
 ```
 
 **Note:** Replace `[YOUR_CUSTOM_LABELS]` with any labels you want to assign to the runner.
