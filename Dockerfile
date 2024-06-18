@@ -32,4 +32,4 @@ USER runner
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Set PATH for Rust
-ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH="/home/runner/.cargo/bin:${PATH}"
