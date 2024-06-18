@@ -11,6 +11,7 @@ RUN apt-get update && \
     git \
     jq \
     unzip \
+	build-essential \
     software-properties-common \
     libssl-dev \
     libudev-dev
