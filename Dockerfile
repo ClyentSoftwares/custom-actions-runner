@@ -14,7 +14,8 @@ RUN apt-get update && \
 	build-essential \
     software-properties-common \
     libssl-dev \
-    libudev-dev
+    libudev-dev \
+	pkg-config
 
 # Download and install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip" && \
