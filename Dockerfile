@@ -10,13 +10,14 @@ RUN apt-get update && \
     wget \
     git \
     jq \
+    zip \
     unzip \
-	build-essential \
+    build-essential \
     software-properties-common \
     libssl-dev \
     libudev-dev \
-	libclang-dev \
-	pkg-config
+    libclang-dev \
+    pkg-config
 
 # Download and install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip" && \
