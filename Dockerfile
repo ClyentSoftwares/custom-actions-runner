@@ -9,6 +9,7 @@ RUN apt-get update && \
     curl \
     wget \
     git \
+    git-lfs \
     jq \
     zip \
     unzip \
@@ -18,7 +19,6 @@ RUN apt-get update && \
     libudev-dev \
     libclang-dev \
     pkg-config
-
 # Download and install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip" && \
     unzip -qq awscliv2.zip && \
