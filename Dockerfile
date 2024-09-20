@@ -20,17 +20,12 @@ RUN apt-get update && \
     libclang-dev \
     pkg-config
 
-# Enable 32-bit architecture
-RUN dpkg --add-architecture i386
-
-# Update package list again after adding i386 architecture
-RUN apt-get update
-
-# Install Wine
-RUN apt-get install -y \
-    wine \
-    wine32 \
-    wine64
+# Conditional Wine installation for x86_64 architecture
+RUN if [ "$(uname -m)" = "x86_64" ]; then \
+        dpkg --add-architecture i386 && \
+        apt-get update && \
+        apt-get install -y wine wine32 wine64; \
+    fi
 
 # Download and install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip" && \
