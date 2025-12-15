@@ -1,0 +1,63 @@
+name: Update Runner Version
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Get latest runner version
+        id: latest
+        run: |
+          # Fetch the latest release from actions/runner repository
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name' | sed 's/v//')
+          echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "Latest runner version: $LATEST_VERSION"
+
+      - name: Get current runner version
+        id: current
+        run: |
+          # Extract current version from Dockerfile
+          CURRENT_VERSION=$(grep 'FROM ghcr.io/actions/actions-runner:' Dockerfile | head -n1 | cut -d':' -f2)
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current runner version: $CURRENT_VERSION"
+
+      - name: Compare versions
+        id: compare
+        run: |
+          if [ "${{ steps.latest.outputs.version }}" != "${{ steps.current.outputs.version }}" ]; then
+            echo "update_needed=true" >> $GITHUB_OUTPUT
+            echo "Update needed: ${{ steps.current.outputs.version }} -> ${{ steps.latest.outputs.version }}"
+          else
+            echo "update_needed=false" >> $GITHUB_OUTPUT
+            echo "No update needed, already on latest version"
+          fi
+
+      - name: Update Dockerfile and commit
+        if: steps.compare.outputs.update_needed == 'true'
+        run: |
+          # Update the version in Dockerfile
+          sed -i "s/FROM ghcr.io\/actions\/actions-runner:[0-9.]*/FROM ghcr.io\/actions\/actions-runner:${{ steps.latest.outputs.version }}/" Dockerfile
+
+          # Verify the change
+          echo "Updated Dockerfile:"
+          head -n 5 Dockerfile
+
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Commit and push
+          git add Dockerfile
+          git commit -m "chore(image): bump actions-runner to v${{ steps.latest.outputs.version }}"
+          git push
