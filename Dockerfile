@@ -1,4 +1,4 @@
-FROM ghcr.io/actions/actions-runner:2.333.0
+FROM ghcr.io/actions/actions-runner:2.332.0
 
 # Switch to root user to install additional packages
 USER root
